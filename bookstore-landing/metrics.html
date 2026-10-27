@@ -1,0 +1,750 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookStore — витрина книжного магазина</title>
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="apple-touch-icon" href="img/favicon.svg">
+  <meta name="theme-color" content="#1B3764">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("bookstore-theme");
+        var dark = saved
+          ? saved === "dark"
+          : !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#books">К разделам</a>
+
+  <!-- ХЕДЕР + ГЕРОЙ -->
+  <header class="hero">
+    <div class="container nav">
+      <a class="logo" href="#" aria-label="BookStore — на главную">
+        <svg viewBox="0 0 44 34" width="44" height="34" aria-hidden="true">
+          <path d="M2 4c8-3 16-3 20 2v24c-4-5-12-5-20-2V4z" fill="#FFCA42"/>
+          <path d="M42 4c-8-3-16-3-20 2v24c4-5 12-5 20-2V4z" fill="#FFCA42" opacity=".75"/>
+        </svg>
+        <span>BookStore</span>
+      </a>
+
+      <nav class="menu" id="site-menu">
+        <a href="#books">Книги</a>
+        <a href="#about">О книге</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#blog">Блог</a>
+        <a href="#contacts">Контакты</a>
+        <button type="button" class="btn btn-yellow menu-register" data-open-register>Регистрация</button>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Включить тёмную тему" aria-pressed="false" title="Сменить тему">
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8z" fill="currentColor"/>
+          </svg>
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2" fill="currentColor"/>
+            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M12 2.6v2.1M12 19.3v2.1M2.6 12h2.1M19.3 12h2.1M5.4 5.4l1.5 1.5M17.1 17.1l1.5 1.5M18.6 5.4l-1.5 1.5M6.9 17.1l-1.5 1.5"/>
+            </g>
+          </svg>
+        </button>
+        <button type="button" class="btn btn-yellow" data-open-register>Регистрация</button>
+        <button type="button" class="menu-toggle" data-menu-toggle aria-expanded="false" aria-controls="site-menu" aria-label="Открыть меню">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <p class="hero-kicker">Добро Пожаловать!</p>
+        <h1>Читайте лучшие книги <span class="accent">вместе с нами</span></h1>
+        <span class="underline"></span>
+        <p class="hero-lead">
+          Свежие бестселлеры, классика и редкие издания с быстрой доставкой
+          по всей стране. Регистрация за минуту — скидка 10% на первый заказ.
+        </p>
+        <div class="hero-actions">
+          <a href="#books" class="btn btn-yellow">Смотреть актуальное</a>
+          <a href="#about" class="btn btn-ghost">Узнать больше</a>
+        </div>
+
+        <ul class="hero-features">
+          <li>
+            <span class="icon">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 7h11v8H3zM14 10h4l3 3v2h-7z" fill="none" stroke="#FFCA42" stroke-width="2"/><circle cx="7" cy="17" r="2" fill="#FFCA42"/><circle cx="17.5" cy="17" r="2" fill="#FFCA42"/></svg>
+            </span>
+            <div><strong>Бесплатная доставка</strong><small>при заказе от 1500 ₽</small></div>
+          </li>
+          <li>
+            <span class="icon">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 12a8 8 0 1 1 2.3 5.7" fill="none" stroke="#FFCA42" stroke-width="2"/><path d="M4 7v5h5" fill="none" stroke="#FFCA42" stroke-width="2"/></svg>
+            </span>
+            <div><strong>Возврат 14 дней</strong><small>без лишних вопросов</small></div>
+          </li>
+          <li>
+            <span class="icon">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 3l2.6 5.6 6 .8-4.4 4.2 1.1 6-5.3-3-5.3 3 1.1-6L3.4 9.4l6-.8z" fill="none" stroke="#FFCA42" stroke-width="2"/></svg>
+            </span>
+            <div><strong>Только лучшие книги</strong><small>редакционный выбор</small></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="hero-image">
+        <img src="img/img1.png" alt="Книга месяца">
+        <div class="hero-badge">
+          <span>−20%</span>
+          на первый заказ
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ПРЕВЬЮ КНИГ -->
+  <section class="books" id="books">
+    <div class="container">
+      <div class="section-head">
+        <h2>Книги недели</h2>
+        <p>Два издания, которые выбирают чаще всего</p>
+      </div>
+
+      <div class="book-grid">
+        <article class="book-card">
+          <div class="book-cover"><img src="img/img2.png" alt="Обложка книги"></div>
+          <div class="book-info">
+            <span class="tag">Бестселлер</span>
+            <h3>Утро над городом</h3>
+            <p>Роман о людях, которые не боятся начинать заново. Тёплая история для долгих вечеров.</p>
+            <div class="price-row">
+              <span class="price">890 ₽</span>
+              <span class="old">1 190 ₽</span>
+            </div>
+            <a href="#contacts" class="btn btn-yellow">В корзину</a>
+          </div>
+        </article>
+
+        <article class="book-card">
+          <div class="book-cover"><img src="img/img3.png" alt="Обложка книги"></div>
+          <div class="book-info">
+            <span class="tag">Новинка</span>
+            <h3>Письма с севера</h3>
+            <p>Сборник рассказов о путешествиях, письмах и дороге домой. Издание с тиснением на обложке.</p>
+            <div class="price-row">
+              <span class="price">750 ₽</span>
+              <span class="old">990 ₽</span>
+            </div>
+            <a href="#contacts" class="btn btn-yellow">В корзину</a>
+          </div>
+        </article>
+
+        <article class="book-card book-extra">
+          <div class="book-cover"><img src="img/img15.jpeg" alt="Обложка книги"></div>
+          <div class="book-info">
+            <span class="tag">Выбор редакции</span>
+            <h3>Дом на краю лета</h3>
+            <p>Семейная сага о трёх поколениях и доме, который помнит всех, кто в нём жил.</p>
+            <div class="price-row">
+              <span class="price">690 ₽</span>
+              <span class="old">890 ₽</span>
+            </div>
+            <a href="#contacts" class="btn btn-yellow">В корзину</a>
+          </div>
+        </article>
+
+        <article class="book-card book-extra">
+          <div class="book-cover"><img src="img/img16.jpeg" alt="Обложка книги"></div>
+          <div class="book-info">
+            <span class="tag">Популярное</span>
+            <h3>Там, где тихо</h3>
+            <p>Роман о городе, в котором однажды выключили весь шум, и люди наконец услышали друг друга.</p>
+            <div class="price-row">
+              <span class="price">820 ₽</span>
+              <span class="old">1 050 ₽</span>
+            </div>
+            <a href="#contacts" class="btn btn-yellow">В корзину</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="books-cta">
+        <button type="button" class="btn btn-yellow" data-catalog-toggle aria-expanded="false">Раскрыть</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- О КНИГЕ -->
+  <section class="about" id="about">
+    <div class="container about-inner">
+      <div class="about-image">
+        <img src="img/img4.jpeg" alt="Книга на столе">
+      </div>
+      <div class="about-text">
+        <span class="eyebrow">О книге</span>
+        <h2>История, которую хочется перечитывать</h2>
+        <p>
+          «Утро над городом» — это роман о переменах: о том, как один quyếtительный
+          день меняет жизнь целого квартала. Автор собирал истории горожан целый год
+          и превратил их в одну большую семейную сагу.
+        </p>
+        <ul class="check-list">
+          <li>480 страниц на мелованной бумаге</li>
+          <li>Твёрдый переплёт с золотым тиснением</li>
+          <li>Книжная закладка в комплекте</li>
+        </ul>
+
+        <div class="author-card">
+          <img src="img/img5.jpeg" alt="Портрет автора">
+          <div>
+            <strong>Анна Северова</strong>
+            <small>Автор бестселлера</small>
+          </div>
+          <a href="#books" class="btn btn-yellow btn-sm">Книги автора</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПАРТНЁРЫ -->
+  <section class="partners" id="partners">
+    <div class="container">
+      <div class="section-head">
+        <h2>Наши партнёры</h2>
+        <p>Издательства, сервисы и службы, вместе с которыми мы работаем</p>
+      </div>
+
+      <div class="partner-grid">
+        <article class="partner-card">
+          <div class="partner-info">
+            <strong>Литера</strong>
+            <small>издательство</small>
+          </div>
+        </article>
+
+        <article class="partner-card">
+          <div class="partner-info">
+            <strong>ПроЧтение</strong>
+            <small>сервис рекомендаций</small>
+          </div>
+        </article>
+
+        <article class="partner-card">
+          <div class="partner-info">
+            <strong>Книжный дом</strong>
+            <small>сеть магазинов</small>
+          </div>
+        </article>
+
+        <article class="partner-card">
+          <div class="partner-info">
+            <strong>BookMix</strong>
+            <small>аудиокниги</small>
+          </div>
+        </article>
+
+        <article class="partner-card">
+          <div class="partner-info">
+            <strong>СДЭК</strong>
+            <small>служба доставки</small>
+          </div>
+        </article>
+
+        <article class="partner-card">
+          <div class="partner-info">
+            <strong>ЮKassa</strong>
+            <small>приём платежей</small>
+          </div>
+        </article>
+      </div>
+
+      <p class="partners-note">
+        Хотите стать партнёром магазина? Напишите нам —
+        <a href="mailto:partners@bookstore.ru">partners@bookstore.ru</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ДОСТАВКА: КНИГА УЖЕ СЕГОДНЯ -->
+  <section class="author" id="delivery">
+    <div class="container author-inner">
+      <div class="author-text">
+        <span class="accent-line"></span>
+        <h2>Получите книгу уже сегодня</h2>
+        <p>
+          Оформили заказ до 16:00 — и читаете в тот же день: курьер по городу приезжает
+          от 2 часов, а забрать книгу из нашего зала можно уже через 15 минут.
+        </p>
+        <div class="author-stats">
+          <div><strong>2 ч</strong><span>доставка по городу</span></div>
+          <div><strong>15 мин</strong><span>самовывоз из зала</span></div>
+          <div><strong>0 ₽</strong><span>от 1500 ₽</span></div>
+        </div>
+        <a href="#books" class="btn btn-yellow">Оформить заказ</a>
+      </div>
+      <div class="author-photo">
+        <img src="img/img10.png" alt="Курьер с заказом книги">
+      </div>
+    </div>
+  </section>
+
+  <!-- ОТЗЫВЫ -->
+  <section class="reviews" id="reviews">
+    <div class="container reviews-inner">
+      <div class="reviews-cards">
+        <div class="section-head left">
+          <h2>Что говорят читатели</h2>
+          <p>Отзывы покупателей магазина</p>
+        </div>
+
+        <article class="review">
+          <div class="review-top">
+            <img src="img/img12.jpeg" alt="" class="avatar">
+            <div><strong>Мария К.</strong><small>12 сентября</small></div>
+            <span class="stars">★★★★★</span>
+          </div>
+          <p>Заказала три книги — пришли за два дня, всё упаковано идеально. Отдельное спасибо за рукописную открытку!</p>
+        </article>
+
+        <article class="review">
+          <div class="review-top">
+            <img src="img/img13.jpeg" alt="" class="avatar">
+            <div><strong>Дмитрий Л.</strong><small>3 сентября</small></div>
+            <span class="stars">★★★★★</span>
+          </div>
+          <p>Лучший магазин для подарков: всегда попадаете в вкус, а подборки составлены с душой.</p>
+        </article>
+
+        <article class="review is-extra">
+          <div class="review-top">
+            <span class="avatar avatar-text" aria-hidden="true">А</span>
+            <div><strong>Анна С.</strong><small>27 августа</small></div>
+            <span class="stars">★★★★★</span>
+          </div>
+          <p>Заказывала подарочный набор — упаковали как в бутике, ещё и ленту подобрали под обложку. Теперь покупаю только здесь.</p>
+        </article>
+
+        <article class="review is-extra">
+          <div class="review-top">
+            <span class="avatar avatar-text" aria-hidden="true">И</span>
+            <div><strong>Игорь В.</strong><small>15 августа</small></div>
+            <span class="stars">★★★★★</span>
+          </div>
+          <p>Понравилось, что в описании честно указали состояние книги. Пришло даже лучше, чем ожидал. Доставка — ровно в обещанное время.</p>
+        </article>
+
+        <article class="review is-extra">
+          <div class="review-top">
+            <span class="avatar avatar-text" aria-hidden="true">Е</span>
+            <div><strong>Елена М.</strong><small>2 августа</small></div>
+            <span class="stars">★★★★☆</span>
+          </div>
+          <p>Книга пришла быстро, но коробка была слегка помята. Внутри всё в порядке — поддержка ответила за пару минут и извинилась.</p>
+        </article>
+
+        <article class="review is-extra">
+          <div class="review-top">
+            <span class="avatar avatar-text" aria-hidden="true">П</span>
+            <div><strong>Павел Т.</strong><small>21 июля</small></div>
+            <span class="stars">★★★★★</span>
+          </div>
+          <p>Взял трилогию по совету продавца в чате — попал в самое сердце. Отдельный плюс за закладку и открытку с цитатой.</p>
+        </article>
+
+        <div class="reviews-more">
+          <button type="button" class="btn btn-yellow" data-reviews-next>Читать дальше</button>
+        </div>
+      </div>
+
+      <div class="reviews-image">
+        <img src="img/img11.jpeg" alt="Книга в руках читателя">
+      </div>
+    </div>
+  </section>
+
+  <!-- ЦИТАТЫ / СТАТЬИ -->
+  <section class="quotes">
+    <div class="container">
+      <div class="section-head">
+        <h2>Говорят о книгах</h2>
+        <p>Цитаты и заметки из мира литературы</p>
+      </div>
+
+      <div class="quote-grid">
+        <article class="quote-card">
+          <span class="quote-mark">«</span>
+          <p>Книга — это окно, а магазин — рама, которая держит его открытым.</p>
+          <footer>Редакция «Литера»</footer>
+        </article>
+        <article class="quote-card">
+          <span class="quote-mark">«</span>
+          <p>Хорошая витрина заставляет взять книгу в руки раньше, чем ты это решил.</p>
+          <footer>Журнал «ПроЧтение»</footer>
+        </article>
+        <article class="quote-card">
+          <span class="quote-mark">«</span>
+          <p>Мы измеряем счастье не километрами, а прочитанными главами.</p>
+          <footer>Блог BookMix</footer>
+        </article>
+        <article class="quote-card">
+          <span class="quote-mark">«</span>
+          <p>Самая честная реклама книги — читатель, который советует её другу.</p>
+          <footer>Книжный дом</footer>
+        </article>
+      </div>
+
+      <div class="quotes-cta">
+        <a href="#blog" class="btn btn-yellow btn-wide">Читать все материалы</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- БЛОГ -->
+  <section class="blog" id="blog">
+    <div class="container">
+      <div class="blog-head">
+        <div class="section-head left">
+          <h2>Блог магазина</h2>
+          <p>Новости, подборки и встречи с авторами</p>
+        </div>
+
+        <div class="slider-nav">
+          <button class="slider-arrow" type="button" data-prev aria-label="Предыдущая статья">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <button class="slider-arrow" type="button" data-next aria-label="Следующая статья">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="slider" data-slider>
+        <div class="slider-track">
+          <article class="post">
+            <div class="post-media">
+              <img src="img/img6.png" alt="Осенние книги">
+              <span class="post-cat">Подборка</span>
+            </div>
+            <div class="post-body">
+              <span class="post-date">14 октября</span>
+              <h3>5 книг для осенних вечеров</h3>
+              <p>Тёплый плед, чай и роман, который не отпускает до последней страницы.</p>
+              <a href="#" class="post-link">Читать →</a>
+            </div>
+          </article>
+
+          <article class="post">
+            <div class="post-media">
+              <img src="img/img7.png" alt="Встреча с автором">
+              <span class="post-cat">Событие</span>
+            </div>
+            <div class="post-body">
+              <span class="post-date">8 октября</span>
+              <h3>Встреча с Анной Северовой</h3>
+              <p>Автор «Утра над городом» ответила на вопросы читателей в нашем зале.</p>
+              <a href="#" class="post-link">Читать →</a>
+            </div>
+          </article>
+
+          <article class="post">
+            <div class="post-media">
+              <img src="img/img8.png" alt="Выбор книги в подарок">
+              <span class="post-cat">Гид</span>
+            </div>
+            <div class="post-body">
+              <span class="post-date">1 октября</span>
+              <h3>Как выбрать подарок-книгу</h3>
+              <p>Простой гид: жанры, издания и ловушки, в которые чаще всего попадают.</p>
+              <a href="#" class="post-link">Читать →</a>
+            </div>
+          </article>
+
+          <article class="post">
+            <div class="post-media">
+              <img src="img/img9.png" alt="Читальный зал магазина">
+              <span class="post-cat">Магазин</span>
+            </div>
+            <div class="post-body">
+              <span class="post-date">24 сентября</span>
+              <h3>Как мы выбираем книги для полок</h3>
+              <p>Рассказываем, кто и по каким критериям решает, что попадёт в зал.</p>
+              <a href="#" class="post-link">Читать →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="slider-dots" data-dots></div>
+    </div>
+  </section>
+
+  <!-- РЕГИСТРАЦИЯ -->
+  <section class="subscribe" id="register">
+    <div class="container register-inner">
+      <div class="register-card">
+        <span class="eyebrow">Регистрация</span>
+        <h2>Создайте аккаунт BookStore</h2>
+        <p>Один аккаунт — скидка 10% на первый заказ, список желаний, анонсы новых книг и встреч с авторами.</p>
+
+        <form class="register-form" onsubmit="return false;">
+          <div class="field">
+            <label for="reg-name">Имя</label>
+            <input id="reg-name" type="text" placeholder="Как к вам обращаться" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="reg-email">E-mail</label>
+            <input id="reg-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+
+          <div class="field">
+            <label for="reg-pass">Пароль</label>
+            <input id="reg-pass" type="password" placeholder="Минимум 6 символов" minlength="6" autocomplete="new-password" required>
+          </div>
+
+          <label class="checkbox">
+            <input type="checkbox" required>
+            <span>Согласен с условиями и хочу получать анонсы новых книг</span>
+          </label>
+
+          <button type="submit" class="btn btn-dark btn-full">Создать аккаунт</button>
+        </form>
+
+        <p class="register-foot">
+          Уже есть аккаунт?
+          <a href="#" data-open-login>Войти в аккаунт</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ВОПРОСЫ И ОТВЕТЫ (аккордеон) -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-head">
+        <h2>Часто задаваемые вопросы</h2>
+        <p>Коротко о главном: доставка, оплата и аккаунт</p>
+      </div>
+
+      <div class="accordion" data-accordion>
+        <div class="acc-item open">
+          <button class="acc-head" type="button" aria-expanded="true">
+            <span>Сколько стоит доставка?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>При заказе от 1 500 ₽ — бесплатно. Иначе 300 ₽ по городу и 500 ₽ в регионы. Курьер приезжает от 2 часов, а забрать книгу из зала можно через 15 минут после оформления.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <span>Можно получить заказ сегодня?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>Да. Оформите заказ до 16:00 — и читаете его в тот же день: курьер приедет от 2 часов, самовывоз доступен через 15 минут.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <span>Можно ли вернуть книгу?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>Да, в течение 14 дней, если сохранён товарный вид и упаковка. Возврат денег — на тот же счёт, с которого была оплата, обычно за 1–3 рабочих дня.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <span>Как оплатить заказ?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>Картой онлайн, при получении курьеру или наличными в нашем книжном зале. Для компаний — оплата по счёту.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <span>Что даёт аккаунт?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>Скидку 10% на первый заказ, историю покупок, список желаний и ранний доступ к предзаказам новинок.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <span>Работаете ли вы с юридическими лицами?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>Да: выставляем счёт, закрываем договор поставки и отправляем книги по одному адресу — удобно для библиотек, школ и офисов.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ФУТЕР -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col brand">
+        <a class="logo" href="#">
+          <svg viewBox="0 0 44 34" width="40" height="31" aria-hidden="true">
+            <path d="M2 4c8-3 16-3 20 2v24c-4-5-12-5-20-2V4z" fill="#FFCA42"/>
+            <path d="M42 4c-8-3-16-3-20 2v24c4-5 12-5 20-2V4z" fill="#FFCA42" opacity=".75"/>
+          </svg>
+          <span>BookStore</span>
+        </a>
+        <p>Магазин книг с доставкой по всей стране. Читаем сами — советуем вам.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Магазин</h4>
+        <a href="#books">Каталог</a>
+        <a href="#about">О книге</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#blog">Блог</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Помощь</h4>
+        <a href="#contacts">Доставка</a>
+        <a href="#contacts">Оплата</a>
+        <a href="#contacts">Возврат</a>
+        <a href="#register">Регистрация</a>
+      </div>
+
+      <div class="footer-col" id="contacts">
+        <h4>Контакты</h4>
+        <a href="tel:+78001234567">8 800 123-45-67</a>
+        <a href="mailto:hello@bookstore.ru">hello@bookstore.ru</a>
+        <span>ул. Книжная, 12, Москва</span>
+        <span>ежедневно 10:00 — 22:00</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <span>© 2026 BookStore. Все права защищены.</span>
+        <span>Политика конфиденциальности</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ -->
+  <div class="modal" id="register-modal" hidden>
+    <div class="modal-overlay" data-close-modal></div>
+
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="register-modal-title">
+      <button type="button" class="modal-close" data-close-modal aria-label="Закрыть окно">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <span class="eyebrow">Регистрация</span>
+      <h3 id="register-modal-title">Создайте аккаунт</h3>
+      <p class="modal-lead">Скидка 10% на первый заказ, список желаний и анонсы новых книг — сразу после регистрации.</p>
+
+      <form class="register-form" onsubmit="return false;">
+        <div class="field">
+          <label for="modal-name">Имя</label>
+          <input id="modal-name" type="text" placeholder="Как к вам обращаться" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="modal-email">E-mail</label>
+          <input id="modal-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="modal-pass">Пароль</label>
+          <input id="modal-pass" type="password" placeholder="Минимум 6 символов" minlength="6" autocomplete="new-password" required>
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox" required>
+          <span>Согласен с условиями и хочу получать анонсы новых книг</span>
+        </label>
+
+        <button type="submit" class="btn btn-yellow btn-full">Зарегистрироваться</button>
+        <p class="modal-foot">Уже есть аккаунт? <a href="#" data-open-login>Войти</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО ВХОДА -->
+  <div class="modal" id="login-modal" hidden>
+    <div class="modal-overlay" data-close-modal></div>
+
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+      <button type="button" class="modal-close" data-close-modal aria-label="Закрыть окно">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <span class="eyebrow">Вход</span>
+      <h3 id="login-modal-title">С возвращением!</h3>
+      <p class="modal-lead">Войдите, чтобы видеть список желаний, историю заказов и свои скидки.</p>
+
+      <form class="register-form" onsubmit="return false;">
+        <div class="field">
+          <label for="login-email">E-mail</label>
+          <input id="login-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="login-pass">Пароль</label>
+          <input id="login-pass" type="password" placeholder="Ваш пароль" autocomplete="current-password" required>
+        </div>
+
+        <label class="checkbox">
+          <input type="checkbox">
+          <span>Запомнить меня на этом устройстве</span>
+        </label>
+
+        <button type="submit" class="btn btn-yellow btn-full">Войти</button>
+        <p class="modal-foot">Нет аккаунта? <a href="#" data-open-register>Зарегистрироваться</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+<script>
+window.addEventListener("load", function(){
+  function m(sel){
+    var el=document.querySelector(sel); if(!el) return null;
+    var r=el.getBoundingClientRect();
+    return {sel:sel, top:Math.round(r.top+window.scrollY), height:Math.round(r.height), left:Math.round(r.left), width:Math.round(r.width)};
+  }
+  var sels=[".hero",".hero-inner","#books","#about","#partners","#delivery","#reviews",".quotes","#blog","#register","#faq",".footer",".book-grid",".reviews-cards",".slider",".register-card"];
+  var data={page:{w:document.documentElement.scrollWidth,h:document.documentElement.scrollHeight,h1:window.innerHeight}, items:sels.map(m)};
+  var pre=document.createElement("pre"); pre.id="metrics"; pre.textContent=JSON.stringify(data); document.body.appendChild(pre);
+});
+</script></body>
+</html>
+
